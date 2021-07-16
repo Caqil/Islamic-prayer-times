@@ -1,12 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
 import 'package:islamic_prayer_times/Extras/notification/notification_manager.dart';
 import 'package:islamic_prayer_times/provider/daily_timings.dart';
 import 'package:islamic_prayer_times/provider/settings_provider.dart';
@@ -14,8 +10,7 @@ import 'package:islamic_prayer_times/service/Utils.dart';
 import 'package:islamic_prayer_times/service/get_prayer_times.dart';
 import 'package:islamic_prayer_times/times/MonthlyPrayerTimes.dart';
 import 'package:islamic_prayer_times/times/daily_prayer_times.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart' as permissionHandler;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -276,7 +271,7 @@ class _PagesState extends State<Pages> {
 
     // background fetch service will stop after some time on some devices due to OS reasons.
     // this will allow background fetch to run forever
-    await permissionHandler.Permission.ignoreBatteryOptimizations.request();
+    await Permission.ignoreBatteryOptimizations.request();
   }
 
   @override
@@ -339,15 +334,14 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
 
     Timer(Duration(seconds: 3), () async {
-      if (!await permissionHandler.Permission.location.isGranted) {
+      if (!await Permission.location.isGranted) {
         showAlertDialog(context);
-      }else{
+      } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => Pages()));
       }
     });
@@ -357,11 +351,13 @@ class _SplashScreenState extends State<SplashScreen> {
     Widget okButton = TextButton(
       child: Text("ALLOW"),
       onPressed: () async {
-        permissionHandler.PermissionStatus permissionStatus = await permissionHandler.Permission.location.request();
+        PermissionStatus permissionStatus = await Permission.location.request();
         if (permissionStatus.isGranted) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => Pages()));
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Location permission no granted. Please grant the permission to use the app."),));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Location permission no granted. Please grant the permission to use the app."),
+          ));
         }
       },
     );
