@@ -15,7 +15,7 @@ import 'package:islamic_prayer_times/service/get_prayer_times.dart';
 import 'package:islamic_prayer_times/times/MonthlyPrayerTimes.dart';
 import 'package:islamic_prayer_times/times/daily_prayer_times.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart' as permissionHandler;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -55,8 +55,7 @@ Future<void> setScheduledNotifications() async {
 
   double latitude = prefs.getDouble("latitude") ?? 0.0;
   double longitude = prefs.getDouble("longitude") ?? 0.0;
-  int preferredCalculationMethod =
-      prefs.getInt("preferredCalculationMethod") ?? 2;
+  int preferredCalculationMethod = prefs.getInt("preferredCalculationMethod") ?? 2;
   int madhab = prefs.getInt("madhab") ?? 0;
   int midNightMode = prefs.getInt("midNightMode") ?? 0;
   int hijriDateAdjustment = prefs.getInt("hijri") ?? 2;
@@ -68,8 +67,7 @@ Future<void> setScheduledNotifications() async {
       method: preferredCalculationMethod.toString(),
       madhab: madhab.toString(),
       midnightMode: midNightMode.toString(),
-      hijriDateAdjustment:
-          Utils().getCalculatedHijriDate(hijriDateAdjustment).toString());
+      hijriDateAdjustment: Utils().getCalculatedHijriDate(hijriDateAdjustment).toString());
 
   calculateNextTime(prayerTimes.fajr, "Fajr", 0);
   calculateNextTime(prayerTimes.dhuhr, "Dhuhr", 1);
@@ -82,8 +80,8 @@ calculateNextTime(var nextTime, String prayerName, int Id) async {
   var val = nextTime.split(":");
 
   final nowDateTime = DateTime.now();
-  DateTime prayerDateTime = new DateTime(nowDateTime.year, nowDateTime.month,
-      nowDateTime.day, int.parse(val[0]), int.parse(val[1]));
+  DateTime prayerDateTime =
+      new DateTime(nowDateTime.year, nowDateTime.month, nowDateTime.day, int.parse(val[0]), int.parse(val[1]));
 
   var difference;
 
@@ -105,13 +103,12 @@ calculateNextTime(var nextTime, String prayerName, int Id) async {
   switch (notificationMode) {
     case 0:
       // notificationDetails = manager.salahChannel();
-      notificationDetails = manager.setChannel("1", "Salah Prayer notification",
-          "Prayer notification channel", "hayya_alassallah_azan");
+      notificationDetails =
+          manager.setChannel("1", "Salah Prayer notification", "Prayer notification channel", "hayya_alassallah_azan");
       break;
     case 1:
       // notificationDetails = manager.beepChannel();
-      notificationDetails = manager.setChannel(
-          "2", "Beep notification", "Prayer notification channel", "beep_once");
+      notificationDetails = manager.setChannel("2", "Beep notification", "Prayer notification channel", "beep_once");
       break;
     case 2:
       notificationDetails = manager.vibrationChannel();
@@ -120,68 +117,44 @@ calculateNextTime(var nextTime, String prayerName, int Id) async {
       notificationDetails = manager.muteChannel();
       break;
     case 4:
-      notificationDetails = manager.setChannel("5", "Salah Prayer notification",
-          "Prayer notification channel", "ahmad_al_nafees");
+      notificationDetails =
+          manager.setChannel("5", "Salah Prayer notification", "Prayer notification channel", "ahmad_al_nafees");
       break;
     case 5:
       notificationDetails = manager.setChannel(
-          "6",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "another_mishary_rashid_alafasy_adhan");
+          "6", "Salah Prayer notification", "Prayer notification channel", "another_mishary_rashid_alafasy_adhan");
       break;
     case 6:
       notificationDetails = manager.setChannel(
-          "7",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "dubai_s_one_tv_by_mishary_rashid_alafasy");
+          "7", "Salah Prayer notification", "Prayer notification channel", "dubai_s_one_tv_by_mishary_rashid_alafasy");
       break;
     case 7:
-      notificationDetails = manager.setChannel("8", "Salah Prayer notification",
-          "Prayer notification channel", "hafiz_mustafa_ozcan_from_turkey");
+      notificationDetails =
+          manager.setChannel("8", "Salah Prayer notification", "Prayer notification channel", "hafiz_mustafa_ozcan_from_turkey");
       break;
     case 8:
       notificationDetails = manager.setChannel(
-          "9",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "karl_jenkins_the_armed_man_mass_for_peace");
+          "9", "Salah Prayer notification", "Prayer notification channel", "karl_jenkins_the_armed_man_mass_for_peace");
       break;
     case 9:
-      notificationDetails = manager.setChannel(
-          "10",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "masjid_al_haram_in_mecca");
+      notificationDetails =
+          manager.setChannel("10", "Salah Prayer notification", "Prayer notification channel", "masjid_al_haram_in_mecca");
       break;
     case 10:
-      notificationDetails = manager.setChannel(
-          "11",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "mishary_rashid_alafasy");
+      notificationDetails =
+          manager.setChannel("11", "Salah Prayer notification", "Prayer notification channel", "mishary_rashid_alafasy");
       break;
     case 11:
-      notificationDetails = manager.setChannel(
-          "12",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "qari_abdul_kareem");
+      notificationDetails =
+          manager.setChannel("12", "Salah Prayer notification", "Prayer notification channel", "qari_abdul_kareem");
       break;
     case 12:
-      notificationDetails = manager.setChannel(
-          "13",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "salah_mansoor_az_ahrani");
+      notificationDetails =
+          manager.setChannel("13", "Salah Prayer notification", "Prayer notification channel", "salah_mansoor_az_ahrani");
       break;
     case 13:
-      notificationDetails = manager.setChannel(
-          "14",
-          "Salah Prayer notification",
-          "Prayer notification channel",
-          "sheikh_jamac_hareed");
+      notificationDetails =
+          manager.setChannel("14", "Salah Prayer notification", "Prayer notification channel", "sheikh_jamac_hareed");
       break;
     default:
       notificationDetails = manager.salahChannel();
@@ -223,10 +196,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<DailyTimings>(
-            create: (context) => DailyTimings()),
-        ChangeNotifierProvider<SettingsProvider>(
-            create: (context) => SettingsProvider()),
+        ChangeNotifierProvider<DailyTimings>(create: (context) => DailyTimings()),
+        ChangeNotifierProvider<SettingsProvider>(create: (context) => SettingsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -236,7 +207,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Pages(),
+        home: SplashScreen(),
       ),
     );
   }
@@ -248,8 +219,7 @@ class Pages extends StatefulWidget {
   _PagesState createState() => _PagesState();
 }
 
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class _PagesState extends State<Pages> {
   PageController _controller;
@@ -306,7 +276,7 @@ class _PagesState extends State<Pages> {
 
     // background fetch service will stop after some time on some devices due to OS reasons.
     // this will allow background fetch to run forever
-    await Permission.ignoreBatteryOptimizations.request();
+    await permissionHandler.Permission.ignoreBatteryOptimizations.request();
   }
 
   @override
@@ -369,13 +339,51 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  bool fileLoading = false;
 
   @override
   void initState() {
     super.initState();
 
-    _waitFunction();
+    Timer(Duration(seconds: 3), () async {
+      if (!await permissionHandler.Permission.location.isGranted) {
+        showAlertDialog(context);
+      }else{
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => Pages()));
+      }
+    });
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget okButton = TextButton(
+      child: Text("ALLOW"),
+      onPressed: () async {
+        permissionHandler.PermissionStatus permissionStatus = await permissionHandler.Permission.location.request();
+        if (permissionStatus.isGranted) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => Pages()));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Location permission no granted. Please grant the permission to use the app."),));
+        }
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Permissions"),
+      content: Text("This app collects location data to fetch 'Prayer Times' even when the app is closed or not in use. "
+          "App gets location once after every 24 hours to get 'Prayer Times'."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -390,22 +398,25 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                  image: AssetImage('assets/quran.png'),
-                  height: 300,
+                  image: AssetImage('assets/logo.png'),
+                  height: 250,
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Text(
-                  "Al-Qur-an",
+                  "Prayer Times",
                   style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Getting files ready. Please wait",
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
                   child: CircularProgressIndicator(),
-                ),
-                Visibility(
-                  visible: fileLoading,
-                  child: Text(
-                    "Getting files ready. Please wait",
-                  ),
                 ),
               ],
             ),
@@ -413,162 +424,5 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
-  }
-
-  _waitFunction() async {
-    await downloadTranslation("prayer_time");
-    await downloadTranslation("this");
-    openHomeScreen();
-  }
-
-  Future _fileAlreadyDownloaded(String identifier) async {
-    final Directory directory = Platform.isIOS
-        ? await getLibraryDirectory()
-        : await getExternalStorageDirectory();
-    final File file = File('${directory.path}/$identifier.json');
-    print("file exist: ${file.exists()}, ${file.path}");
-    return await file.exists();
-  }
-
-  Future<File> downloadTranslation(String identifier) async {
-    if (!await _fileAlreadyDownloaded(identifier)) {
-      setState(() {
-        fileLoading = true;
-      });
-      var response;
-      print("112233 here");
-      try {
-        response =
-            await http.get("http://api.alquran.cloud/v1/quran/$identifier");
-        // response = await http.get(Uri.parse("http://api.alquran.cloud/v1/quran/$identifier"));
-      } catch (e) {
-        print("Error: $e");
-      }
-      if (response.statusCode == 200) {
-        final Directory directory = Platform.isIOS
-            ? await getLibraryDirectory()
-            : await getExternalStorageDirectory();
-        final File file = File('${directory.path}/$identifier.json');
-        return await file.writeAsString(response.body);
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
-      }
-    }
-  }
-
-  Position _position;
-  DateTime time = DateTime.now();
-  var prayerTimes;
-
-  getTimes() async {
-    var state = Provider.of<DailyTimings>(context, listen: false);
-    var settingsState = Provider.of<SettingsProvider>(context, listen: false);
-    print("valllll: " + settingsState.address);
-    if (settingsState.address.isEmpty) {
-      _position = await _determinePosition();
-      state.setLat = _position.latitude;
-      state.setLon = _position.longitude;
-      settingsState.setLatitude(_position.latitude);
-      settingsState.setLongitude(_position.longitude);
-      state.setLocation =
-          await placemarkFromCoordinates(state.getLat, state.getLon);
-      print("called" +
-          state.getLocation.first.subLocality +
-          " " +
-          state.getLocation.first.subAdministrativeArea);
-      settingsState.setAddress(state.getLocation.first.subLocality +
-          " " +
-          state.getLocation.first.subAdministrativeArea);
-
-      restartBackgroundFetch();
-    } else {
-      print("else working");
-      state.setLat = settingsState.latitude;
-      state.setLon = settingsState.longitude;
-    }
-    time = DateTime.now();
-    String unixTime = (time.microsecondsSinceEpoch / 1000).toString();
-    prayerTimes = await GetPrayerTimes().getPrayerTimes(
-        timestamp: unixTime.toString(),
-        lat: state.getLat.toString(),
-        lon: state.getLon.toString(),
-        method: settingsState.preferredCalculationMethod.toString(),
-        madhab: settingsState.madhab.toString(),
-        midnightMode: settingsState.midNightMode.toString(),
-        hijriDateAdjustment: Utils()
-            .getCalculatedHijriDate(settingsState.hijriDateAdjustment)
-            .toString());
-    state.setPrayerTimes = prayerTimes;
-    state.setTodays = prayerTimes;
-
-    /*getNext(state.getTodays);
-    // getNext("11:55");
-
-    setState(() {
-      loading = false;
-    });*/
-
-    return prayerTimes;
-  }
-
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-    }
-
-    PermissionStatus permissionStatus = await Permission.location.request();
-    print("112233 Error: $permissionStatus");
-
-    if (permissionStatus.isGranted) {
-      return await Geolocator.getCurrentPosition();
-    } else {
-      return Position(latitude: 0, longitude: 0);
-    }
-  }
-
-  getPrayerTimes(
-      {String timestamp,
-      String lat,
-      String lon,
-      String method,
-      String madhab,
-      String midnightMode,
-      String hijriDateAdjustment,
-      String identifier}) async {
-    if (!await _fileAlreadyDownloaded(identifier)) {
-      setState(() {
-        fileLoading = true;
-      });
-
-      var url =
-          'http://api.aladhan.com/v1/timings/$timestamp?latitude=$lat&longitude=$lon&method=$method&school=$madhab&midnightMode=$midnightMode'
-          '&adjustment=$hijriDateAdjustment';
-      print("url: " + url.toString());
-      var response = await http.get(url);
-      // var response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final Directory directory = Platform.isIOS
-            ? await getLibraryDirectory()
-            : await getExternalStorageDirectory();
-        final File file = File('${directory.path}/$identifier.json');
-        return await file.writeAsString(response.body);
-      } else {
-        print('Request failed with status: ${response.statusCode}.');
-      }
-    }
-  }
-
-  openHomeScreen() {
-    setState(() {
-      fileLoading = false;
-    });
-    Timer(
-        Duration(seconds: 2),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => Pages())));
   }
 }
